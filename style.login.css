@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: url('bg3.jpg.png');
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 20px;
+}
+
+.form-container {
+    display: flex;
+    width: 450px;
+    height: 600px;
+    border: 3px solid rgba(54, 111, 210, 0.3);
+    border-radius: 30px;
+    backdrop-filter: blur(30px);
+    overflow: hidden;
+}
+
+.form-col {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.btn-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.btn {
+    font-weight: 500;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 30px;
+    background: rgba(29, 5, 165, 0.8);
+     /* Background hijau muda */
+    color: #e1eaf2;
+    box-shadow: 0 5px 10px rgba(245, 242, 242, 0.2);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-1 {
+
+    background: #122beab5; /* Tombol dengan hijau yang lebih kuat */
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+.form-box {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 30px;
+}
+
+.form-title {
+    margin: 40px 0;
+    color: #3a23e1; /* Warna teks hijau terang */
+    font-size: 28px;    
+    font-weight: 600;
+}
+
+.form-inputs {
+    width: 100%;
+}
+
+.input-box {
+    position: relative;
+    margin-bottom: 20px;
+}   
+
+.inputs {
+    width: 100%;
+    height: 55px;
+    padding: 0 20px;
+    background: rgba(144, 238, 144, 0.2); /* Background input hijau muda */
+    color: #06021d; /* Warna teks yang diketik oleh pengguna */
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    outline: none;
+    font-size: 16px;
+}
+
+.inputs::placeholder {
+    color: #32363e; /* Warna placeholder hijau muda lebih terang */
+    font-size: 15px;
+}
+
+.inputs:focus {
+    color: #07155c; /* Warna teks saat pengguna mengetikkan informasi */
+}
+
+.input-box .icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    color: #10054e; /* Warna ikon hijau */
+    width: 17px;
+    height: 17px;
+}
+
+.forgot-pass {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.forgot-pass a {
+    color: #09073f; /* Link hijau */
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-pass a:hover {
+    text-decoration: underline;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #2564e1; /* Tombol submit hijau terang */
+    cursor: pointer;
+    transition: .3s;
+    padding: 15px 0;
+    width: 100%;
+    border-radius: 50px;
+}
+
+.submit-btn:hover {
+    gap: 15px;
+    background-color: #6bddf7; /* Warna hover lebih cerah */
+}

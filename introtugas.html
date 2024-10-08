@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        a {
+            color: #000000;
+            text-decoration: none;
+        }
+        a:hover {
+            background: #0994de;
+            text-decoration: underline;
+        }
+        a.button {
+            background: #227ad7;
+            border-radius: 5px;
+            display: block;
+            font-size: 30px;
+            margin: 10px auto;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        a.button:hover {
+            background: #0e20c4;
+            color: #fff;
+            text-decoration: none;
+        }
+        body {
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            background: url('bg3.jpg.png');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0 20px;
+        }
+        #gameUI {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        #gameIntro, #gameComplete {
+            backdrop-filter: blur(60px);
+            padding: 50px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        #gameIntro h1, #gameIntro p {
+            color: rgb(7, 7, 7);
+        }
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        .login-button {
+            background-color: #73c7ef;
+            color: rgb(18, 8, 8);
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #1070f7;
+        }
+        /* Dropdown Menu in the Top Left */
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-radius: 5px;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #1070f7;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 50%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="top-right">
+            <a href="logintugas.html" class="login-button">Login</a>
+        </div>
+
+        <div class="top-left">
+            <!-- Dropdown Menu -->
+            <div class="dropdown">
+                <button class="login-button dropbtn">Menu</button>
+                <div class="dropdown-content">
+                    <a href="javascript:void(0)" onclick="openAbout()">About</a>
+                    <a href="javascript:void(0)" onclick="openInstructions()">Instructions</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameUI">
+            <div id="gameIntro">
+                <!-- Gambar di atas judul -->
+                <img src="Opsi1.jpg.png" alt="Game Image" style="width: 200px; height: auto; margin-bottom: 20px;">
+                
+                <h1>(●'◡'●) Mindbender Crosswords Game (●'◡'●) </h1>
+                <p>Click Play to Start the Game</p><br>
+                <p><a id="gameMulai" class="button" href="tugas1.html">Play</a></p>
+            </div>
+        </div>
+
+        <!-- Modal for About the Game -->
+        <div id="aboutModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeAbout()">&times;</span>
+                <h2>Tentang Mindbender Crosswords</h2>
+                <p><br>MindBender Crosswords dirancang khusus untuk membantu meningkatkan kemampuan intelektual anak-anak di Indonesia. 
+                        Dengan pendekatan yang menyenangkan dan mendidik, game ini bertujuan memperbaiki isu IQ rendah melalui latihan
+                        pemikiran kritis, kosa kata, dan penalaran logis. Setiap level disusun untuk merangsang otak anak secara bertahap,
+                        sehingga mereka bisa belajar sambil bermain, meningkatkan konsentrasi, serta memecahkan masalah. </br>  
+                        Selesaikan teka-teki silang ini dalam batas waktu tertentu dan uji pengetahuanmu!
+                        Dapatkan solusi dan perbaiki kesalahanmu melalui fitur pembahasan yang tersedia! </p>
+            </div>
+        </div>
+
+        <!-- Modal for Game Instructions -->
+        <div id="instructionsModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeInstructions()">&times;</span>
+                <h2>Petunjuk Cara Bermain</h2>
+                <p>1. Klik tombol "Play" untuk memulai permainan.</p>
+                <p>2. Akan muncul jenis permainan teka-teki silang, di mana Anda harus mdmillih jenis permainan yang Anda inginkan.</p>
+                <p>3. Klik Mulai Permainan.</p>
+                <p>4. Isi seluruh kotak teka teki silang yang tersedia berdasarkan soal dan petunjuk pengisian.</p>
+                <p>5. Isi seluruh kotak dengan tepat dan cepat karena kecepatan waktu akan berpengaruh dengan progress level Anda!</p>
+                <p>6. Setelah selesai, Anda dapat memeriksa kesalahan dan mendapatkan pembahasan soal-soal.</p>
+            </div>
+        </div>
+
+        <script>
+            // Open the About modal
+            function openAbout() {
+                document.getElementById('aboutModal').style.display = 'flex';
+            }
+
+            // Close the About modal
+            function closeAbout() {
+                document.getElementById('aboutModal').style.display = 'none';
+            }
+
+            // Open the Instructions modal
+            function openInstructions() {
+                document.getElementById('instructionsModal').style.display = 'flex';
+            }
+
+            // Close the Instructions modal
+            function closeInstructions() {
+                document.getElementById('instructionsModal').style.display = 'none';
+            }
+
+            // Close the modal if user clicks outside the modal content
+            window.onclick = function(event) {
+                let aboutModal = document.getElementById('aboutModal');
+                let instructionsModal = document.getElementById('instructionsModal');
+                if (event.target == aboutModal) {
+                    aboutModal.style.display = 'none';
+                } else if (event.target == instructionsModal) {
+                    instructionsModal.style.display = 'none';
+                }
+            }
+        </script>
+    </body>
+</html>

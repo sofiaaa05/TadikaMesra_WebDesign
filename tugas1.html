@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Teka-Teki Silang</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            text-align: center;
+            background: url('desain tanpa judul.png');
+            
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        td {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ffffff;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 20px;
+            background-color: #034f29;
+            position: relative;
+        }
+        .number {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .hint {
+            background-color: #a7ffd6;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .clue {
+            text-align: left;
+            margin-left: 20px;
+            backdrop-filter: blur(30px);
+        }
+        .clue h2 {
+            font-size: 18px;
+            backdrop-filter: blur(30px);
+        }
+        input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            font-size: 20px;
+            text-align: center;
+        }
+        .timer {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .button {
+            background-color: #479649; /* Warna hijau */
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px; /* Biar ada efek melengkung di ujung tombol */
+        }
+        .button:hover {
+            background-color: #266436;
+            text-align: center;
+            display: inline-block;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        select {
+            background-color: #bef5ce; /* Warna latar belakang dropdown */
+            color: #333333; /* Warna teks */
+            border: 1px solid #cccccc; /* Warna batas */
+            padding: 8px;
+            border-radius: 5px; /* Membuat dropdown lebih melengkung */
+            font-size: 14px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        select:hover {
+            background-color: #63f092; /* Warna saat dropdown di-hover */
+        }
+
+        option {
+            background-color: #daffe9; /* Warna latar belakang setiap opsi */
+            color: #333333; /* Warna teks pada opsi */
+        }
+
+        option:hover {
+            background-color: #63f092; /* Warna saat opsi di-hover */
+        }
+        #explanationButton{
+            background-color: #daffe9; /* Warna latar belakang setiap opsi */
+            color: #333333; /* Warna teks pada opsi */
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+        #explanationButton:hover{
+            background-color: #63f092; /* Warna saat opsi di-hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Teka-Teki Silang</h1>
+
+    <!-- Tombol Kembali -->
+    <div class="top-right">
+        <button onclick="window.location.href='introtugas.html'" class="button">Kembali</button>
+    </div>
+
+    <!-- Pilihan Kategori -->
+    <div>
+        <label for="category">Pilih Jenis Teka-Teki Silang:</label>
+        <select id="category" onchange="showClue()">
+            <option value="">-- Pilih Kategori --</option>
+            <option value="hewan">Hewan</option>
+            <option value="kota">Kota</option>
+            <option value="makanan">Makanan</option>
+        </select>
+        <button onclick="startGame()" class="button">Mulai Permainan</button>
+    </div>
+
+    <!-- Timer -->
+    <div class="timer">Waktu: <span id="time">00:00</span></div>
+    <div class="fastest-time">Waktu Tercepat: <span id="fastest-time">Belum Ada</span></div>
+
+    <!-- Tabel Teka-Teki Silang Hewan -->
+    <table id="crosswordTable-hewan" class="hidden">
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="8-across-1-hewan"><span class="number">4</span></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="8-across-2-hewan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="8-across-3-hewan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+
+        <tr>
+            <td></td><td></td><td></td>
+            <td class="hint" id="2-down-1-hewan"><span class="number">1</span></td>
+            <td class="hint" id="2-across-2-hewan"></td>
+            <td class="hint" id="2-across-3-hewan"></td>
+            <td class="hint" id="2-across-4-hewan"></td>
+            <td class="hint" id="2-across-5-hewan"></td>
+            <td class="hint" id="2-across-6-hewan"></td>
+            <td class="hint" id="2-across-7-hewan"></td>
+            <td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td>
+            <td class="hint" id="1-down-1-hewan"></td>
+            <td></td><td></td><td></td><td></td>
+            <td class="hint" id="8-across-4-hewan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="9-down-1-hewan"><span class="number">5</span></td>
+            <td></td><td></td>
+            <td class="hint" id="1-down-2-hewan"></td>
+            <td></td><td></td>
+            <td class="hint" id="4-down-1-hewan"><span class="number">2</span></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="9-down-2-hewan"></td>
+            <td></td><td></td>
+            <td class="hint" id="1-down-3-hewan"><span class="number">2</span></td>
+            <td class="hint" id="3-down-1-hewan"></td>
+            <td class="hint" id="3-down-2-hewan"></td>
+            <td class="hint" id="3-down-3-hewan"></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="9-down-3-hewan"></td>
+            <td></td><td></td>
+            <td class="hint" id="1-down-4-hewan"></td>
+            <td></td><td></td>
+            <td class="hint" id="4-down-2-hewan"></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="5-down-1-hewan"><span class="number">3</span></td>
+            <td class="hint" id="5-down-2-hewan"></td>
+            <td class="hint" id="5-down-3-hewan"></td>
+            <td class="hint" id="1-down-5-hewan"></td>
+            <td class="hint" id="5-down-4-hewan"></td>
+            <td></td>
+            <td class="hint" id="4-down-3-hewan"></td>
+            <td></td>
+            <td class="hint" id="10-down-1-hewan"><span class="number">5</span></td>
+            <td class="hint" id="10-down-2-hewan"></td>
+            <td class="hint" id="6-down-1-hewan"><span class="number">3</span></td>
+            <td class="hint" id="10-down-3-hewan"></td>
+            <td class="hint" id="10-down-4-hewan"></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="4-down-4-hewan"></td>
+            <td></td><td></td><td></td>
+            <td class="hint" id="6-down-2-hewan"></td>
+            <td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="7-down-1-hewan"><span class="number">4</span></td>
+            <td class="hint" id="7-down-2-hewan"></td>
+            <td class="hint" id="7-down-3-hewan"></td>
+            <td class="hint" id="7-down-4-hewan"></td>
+            <td class="hint" id="7-down-5-hewan"></td>
+            <td class="hint" id="7-down-6-hewan"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="6-down-3-hewan"></td>
+            <td></td><td></td>
+        </tr>
+    </table>
+
+    <!-- Tabel Teka-Teki Silang Kota -->
+    <table id="crosswordTable-kota" class="hidden">
+        <tr>
+            <td ></td><td ></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="1-down-1-kota"><span class="number">1</span></td>
+            <td ></td><td ></td><td ></td><td ></td>
+        </tr>
+        <tr>
+            <td class="hint" id="2-down-1-kota"><span class="number">1</span></td>
+            <td class="hint" id="2-down-2-kota"></td>
+            <td class="hint" id="2-down-3-kota"></td>
+            <td class="hint" id="2-down-4-kota"></td>
+            <td class="hint" id="2-down-5-kota"></td>
+            <td class="hint" id="2-down-6-kota"></td>
+            <td class="hint" id="2-down-7-kota"></td>
+            <td class="hint" id="2-down-8-kota"></td>
+            <td ></td><td ></td>
+        </tr>
+        <tr>
+            <td ></td><td ></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="1-down-2-kota"></td>
+            <td ></td><td ></td>
+            <td class="hint" id="3-down-1-kota"><span class="number">3</span></td>
+            <td ></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td><td></td><td ></td>
+            <td class="hint" id="4-down-1-kota"><span class="number">2</span></td>
+            <td class="hint" id="4-down-2-kota"></td>
+            <td class="hint" id="4-down-3-kota"></td>
+            <td class="hint" id="4-down-4-kota"></td>
+            <td class="hint" id="4-down-5-kota"></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td>
+            <td class="hint" id="5-down-1-kota"><span class="number">2</span></td>
+            <td ></td>
+            <td class="hint" id="1-down-3-kota"></td>
+            <td ></td><td ></td>
+            <td class="hint" id="3-down-2-kota"></td>
+            <td ></td>
+        </tr>
+        <tr>
+            <td ></td>
+            <td class="hint" id="6-down-1-kota"><span class="number">3</span></td>
+            <td class="hint" id="6-down-2-kota"></td>
+            <td class="hint" id="6-down-3-kota"></td>
+            <td class="hint" id="6-down-4-kota"></td>
+            <td class="hint" id="6-down-5-kota"></td>
+            <td class="hint" id="6-down-6-kota"></td>
+            <td ></td>
+            <td class="hint" id="3-down-3-kota"></td>
+            <td ></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td>
+            <td class="hint" id="5-down-2-kota"></td>
+            <td ></td><td ></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="7-down-1-kota"><span class="number">4</span></td>
+        </tr>
+        <tr>
+            <td ></td>
+            <td class="hint" id="8-down-1-kota"><span class="number">4</span></td>
+            <td class="hint" id="8-down-2-kota"></td>
+            <td class="hint" id="8-down-3-kota"></td>
+            <td class="hint" id="8-down-4-kota"></td>
+            <td ></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="7-down-2-kota"></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td>
+            <td class="hint" id="5-down-3-kota"></td>
+            <td ></td><td ></td><td ></td>
+            <td class="hint" id="9-down-1-kota"><span class="number">5</span></td>
+            <td ></td>
+            <td class="hint" id="7-down-3-kota"></td>
+        </tr>
+        <tr>
+            <td ></td>
+            <td class="hint" id="10-down-1-kota"><span class="number">5</span></td>
+            <td class="hint" id="10-down-2-kota"></td>
+            <td class="hint" id="10-down-3-kota"></td>
+            <td class="hint" id="10-down-4-kota"></td>
+            <td class="hint" id="10-down-5-kota"></td>
+            <td class="hint" id="10-down-6-kota"></td>
+            <td class="hint" id="10-down-7-kota"></td>
+            <td class="hint" id="10-down-8-kota"></td>
+            <td class="hint" id="10-down-9-kota"></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td><td></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="9-down-2-kota"></td>
+            <td ></td>
+            <td class="hint" id="7-down-4-kota"></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td><td></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="9-down-3-kota"></td>
+            <td ></td><td ></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td><td></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="9-down-4-kota"></td>
+            <td ></td><td ></td>
+        </tr>
+        <tr>
+            <td ></td><td></td><td></td><td></td><td ></td><td ></td><td ></td>
+            <td class="hint" id="9-down-5-kota"></td>
+            <td ></td><td ></td>
+        </tr>
+    </table>
+
+    <!-- Tabel Teka-Teki Silang Makanan -->
+    <table id="crosswordTable-makanan" class="hidden">
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="1-down-1-makanan"><span class="number">1</span></td>
+            <td class="hint" id="1-down-2-makanan"></td>
+            <td class="hint" id="1-down-3-makanan"></td>
+            <td class="hint" id="1-down-4-makanan"></td>
+            <td class="hint" id="1-down-5-makanan"></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="2-down-1-makanan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td>
+            <td class="hint" id="3-down-1-makanan"><span class="number">2</span></td>
+            <td class="hint" id="3-down-2-makanan"></td>
+            <td class="hint" id="3-down-3-makanan"></td>
+            <td class="hint" id="3-down-4-makanan"></td>
+            <td></td>
+            <td class="hint" id="2-down-2-makanan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td>
+            <td class="hint" id="4-down-1-makanan"></td>
+            <td></td><td></td><td></td><td></td>
+            <td class="hint" id="2-down-3-makanan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="5-down-1-makanan"><span class="number">3</span></td>
+            <td class="hint" id="5-down-2-makanan"></td>
+            <td class="hint" id="5-down-3-makanan"></td>
+            <td class="hint" id="5-down-4-makanan"></td>
+            <td class="hint" id="5-down-5-makanan"><span class="number">4</span></td>
+            <td class="hint" id="5-down-6-makanan"></td>
+            <td class="hint" id="5-down-7-makanan"></td>
+            <td class="hint" id="5-down-8-makanan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="6-down-1-makanan"></td>
+            <td></td>
+            <td class="hint" id="4-down-2-makanan"></td>
+            <td ></td>
+            <td class="hint" id="7-down-1-makanan"></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="6-down-2-makanan"></td>
+            <td></td><td></td><td></td>
+            <td class="hint" id="7-down-2-makanan"></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="6-down-3-makanan"></td>
+            <td></td><td></td><td></td>
+            <td class="hint" id="7-down-3-makanan"></td>
+            <td></td><td></td>
+            <td class="hint" id="8-down-1-makanan"><span class="number">5</span></td>
+            <td ></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="6-down-4-makanan"></td>
+            <td></td><td></td>
+            <td class="hint" id="9-down-1-makanan"><span class="number">4</span></td>
+            <td class="hint" id="9-down-2-makanan"></td>
+            <td class="hint" id="9-down-3-makanan"></td>
+            <td class="hint" id="9-down-4-makanan"></td>
+            <td class="hint" id="9-down-5-makanan"></td>
+            <td class="hint" id="9-down-6-makanan"></td>
+            <td class="hint" id="9-down-7-makanan"></td>
+            <td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="6-down-5-makanan"></td>
+            <td></td><td></td><td></td>
+            <td class="hint" id="7-down-4-makanan"></td>
+            <td></td><td></td>
+            <td class="hint" id="8-down-2-makanan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td class="hint" id="6-down-6-makanan"></td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="10-down-1-makanan"><span class="number">5</span></td>
+            <td class="hint" id="10-down-2-makanan"></td>
+            <td class="hint" id="10-down-3-makanan"></td>
+            <td class="hint" id="10-down-4-makanan"></td>
+            <td class="hint" id="10-down-5-makanan"></td>
+            <td class="hint" id="10-down-6-makanan"></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="hint" id="8-down-3-makanan"></td>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+    </table>
+
+    <!-- Petunjuk untuk kategori Hewan -->
+    <div class="container hidden" id="clue-hewan">
+        <h2>Petunjuk Hewan:</h2>
+        <div class="clue">
+            <h3>Mendatar:</h3>
+            <p>1. Hewan yang mirip kuda, tapi lebih kecil dan dikenal keras kepala.</p>
+            <p>2. Binatang yang bernafas dengan insang.</p>
+            <p>3. Raja hutan yang dikenal dengan suara aumannya yang kuat.</p>
+            <p>4. Hewan laut dengan delapan lengan dan mampu menyemburkan tinta.</p>
+            <p>5. Hewan pengerat kecil yang sering ditemukan di rumah dan gudang.</p>
+        </div>
+        <div class="clue">
+            <h3>Menurun:</h3>
+            <p>1. Hewan peliharaan yang suka bermain dengan bola benang.</p>
+            <p>2. Sahabat manusia yang terkenal setia dan bisa dilatih.</p>
+            <p>3. Serangga kecil yang suka mengisap darah dan menenpel di kulit.</p>
+            <p>4. Serangga penghasil madu.</p>
+            <p>5. Mamalia laut terbesar.</p>
+        </div>
+    </div>
+
+    <!-- Petunjuk untuk kategori Kota -->
+    <div class="container hidden" id="clue-kota">
+        <h2>Petunjuk Kota:</h2>
+        <div class="clue">
+            <h3>Mendatar:</h3>
+            <p>1. Kota di Jawa Timur yang dikenal dengan sebutan "Kota Pahlawan".</p>
+            <p>2. Kota di Jawa Tengah yang terkenal dengan soto dan pempek.</p>
+            <p>3. Kota di Jawa Timur yang terkenal dengan apel.</p>
+            <p>4. Destinasi wisata terkenal di Bali dengan pantai yang ramai.</p>
+            <p>5. Kota di Sulawesi yang terkenal dengan budaya dan festival karnevalnya.</p>
+
+        </div>
+        <div class="clue">
+            <h3>Menurun:</h3>
+            <p>1. Provinsi di Indonesia yang terkenal dengan Banten lama. </p>
+            <p>2. Kota di Jawa Timur yang terkenal dengan nasi bluder dan festival musik.</p>
+            <p>3. Kota di Sulawesi Tengah yang terkenal dengan Taman Nasional Lore Lindu.</p>
+            <p>4. Kota di Jawa Barat yang dikenal dengan Kebun Raya dan hujan yang sering turun.</p>
+            <p>5. Ibu kota Sumatra Barat yang terkenal dengan rendang dan makanan khas Minang.</p>
+        </div>
+    </div>
+
+    <!-- Petunjuk untuk kategori Makanan -->
+    <div class="container hidden" id="clue-makanan">
+        <h2>Petunjuk Makanan:</h2>
+        <div class="clue">
+            <h3>Mendatar:</h3>
+            <p>1. Makanan khas Yogyakarta yang terbuat dari nangka muda.</p>
+            <p>2. Makanan berkuah yang berisi daging dan kuah.</p>
+            <p>3. Makanan khas betawi yang terdiri dari bihun, tahu, tauge, dan bumbu kacang, sering disajikan dengan kerupuk</p>
+            <p>4. Makanan khas Minangkabau yang terbuat dari daging sapi.</p>
+            <p>5. Minuman manis terbuat dari tepung beras hijau dan santan, disajikan dengan gula merah cair dan es.</p>
+        </div>
+        <div class="clue">
+            <h3>Menurun:</h3>
+            <p>1. Jajanan tradisional yang terbuat dari singkong yang dikukus, dihancurkan, dan disajikan dengan parutan kelapa.</p>
+            <p>2. Makanan khas Indonesia yang berupa daging yang ditusuk lalu dibakar, dan diberi bumbu kacang.</p>
+            <p>3. Nasi yang dibungkus daun kelapa muda.</p>
+            <p>4. Makanan khas palembang yang terbuat dari ikan dan tepung terigu, dimakan bersama dengan cuko asam pedas.</p>
+            <p>5. Makanan tradisional jawa yang terbuat dari tempe atau tahu yang direbus dengan bumbu manis dari gula merah.</p>
+        </div>
+    </div>
+
+    <!-- Tombol Penjelasan -->
+    <button id="explanationButton" class="hidden" onclick="goToExplanation()">Penjelasan</button>
+
+    <script>
+        let timerInterval;
+        let seconds = 0;
+        let minutes = 0;
+        let fastestTime = null;
+        let selectedCategory = "";
+
+        // Jawaban teka-teki silang, setiap kotak dihubungkan antara mendatar dan menurun
+        const answers = {
+            // Kata menurun "kucing"
+            "1-down-1-hewan": "u",
+            "1-down-2-hewan": "c",
+            "1-down-3-hewan": "i",
+            "1-down-4-hewan": "n",
+            "1-down-5-hewan": "g",
+
+            // Kata mendatar "keledai"
+            "2-down-1-hewan": "k",  // "k" adalah huruf yang menghubungkan antara mendatar dan menurun
+            "2-across-2-hewan": "e",
+            "2-across-3-hewan": "l",
+            "2-across-4-hewan": "e",
+            "2-across-5-hewan": "d",
+            "2-across-6-hewan": "a",
+            "2-across-7-hewan": "i",
+
+            // Kata mendatar "ikan"
+            "3-down-1-hewan":"k",
+            "3-down-2-hewan":"a",
+            "3-down-3-hewan":"n",
+
+            "4-down-1-hewan":"a",
+            "4-down-2-hewan":"j",
+            "4-down-3-hewan":"i",
+            "4-down-4-hewan":"n",
+
+            "5-down-1-hewan":"s",
+            "5-down-2-hewan":"i",
+            "5-down-3-hewan":"n",
+            "5-down-4-hewan":"a",
+
+            "6-down-1-hewan":"k",
+            "6-down-2-hewan":"u",
+            "6-down-3-hewan":"u",
+
+            "7-down-1-hewan":"g",
+            "7-down-2-hewan":"u",
+            "7-down-3-hewan":"r",
+            "7-down-4-hewan":"i",
+            "7-down-5-hewan":"t",
+            "7-down-6-hewan":"a",
+
+            "8-across-1-hewan":"l",
+            "8-across-2-hewan":"e",
+            "8-across-3-hewan":"b",
+            "8-across-4-hewan":"h",
+            
+            "9-down-1-hewan":"p",
+            "9-down-2-hewan":"a",
+            "9-down-3-hewan":"u",
+
+            "10-down-1-hewan":"t",
+            "10-down-2-hewan":"i",
+            "10-down-3-hewan":"u",
+            "10-down-4-hewan":"s",
+
+            // Jawaban untuk kategori Kota dan Makanan (placeholder)
+            "1-down-1-kota":"b",
+            "1-down-2-kota":"n",
+            "1-down-3-kota":"e",
+
+            "2-down-1-kota":"s",
+            "2-down-2-kota":"u",
+            "2-down-3-kota":"r",
+            "2-down-4-kota":"a",
+            "2-down-5-kota":"b",
+            "2-down-6-kota":"a",
+            "2-down-7-kota":"y",
+            "2-down-8-kota":"a",
+
+            "3-down-1-kota":"p",
+            "3-down-2-kota":"l",
+            "3-down-3-kota":"u",
+
+            "4-down-1-kota":"t",
+            "4-down-2-kota":"e",
+            "4-down-3-kota":"g",
+            "4-down-4-kota":"a",
+            "4-down-5-kota":"l",
+
+            "5-down-1-kota":"b",
+            "5-down-2-kota":"i",
+            "5-down-3-kota":"a",
+
+            "6-down-1-kota":"m",
+            "6-down-2-kota":"a",
+            "6-down-3-kota":"l",
+            "6-down-4-kota":"a",
+            "6-down-5-kota":"n",
+            "6-down-6-kota":"g",
+
+            "7-down-1-kota":"b",
+            "7-down-2-kota":"o",
+            "7-down-3-kota":"g",
+            "7-down-4-kota":"r",
+
+            "8-down-1-kota":"k",
+            "8-down-2-kota":"u",
+            "8-down-3-kota":"t",
+            "8-down-4-kota":"a",
+
+            "9-down-1-kota":"p",
+            "9-down-2-kota":"d",
+            "9-down-3-kota":"a",
+            "9-down-4-kota":"n",
+            "9-down-5-kota":"g",
+
+            "10-down-1-kota":"g",
+            "10-down-2-kota":"o",
+            "10-down-3-kota":"r",
+            "10-down-4-kota":"o",
+            "10-down-5-kota":"n",
+            "10-down-6-kota":"t",
+            "10-down-7-kota":"a",
+            "10-down-8-kota":"l",
+            "10-down-9-kota":"o",
+
+            "1-down-1-makanan":"g",
+            "1-down-2-makanan":"u",
+            "1-down-3-makanan":"d",
+            "1-down-4-makanan":"e",
+            "1-down-5-makanan":"g",
+
+            "2-down-1-makanan":"e",
+            "2-down-2-makanan":"t",
+            "2-down-3-makanan":"u",
+
+            "3-down-1-makanan":"s",
+            "3-down-2-makanan":"o",
+            "3-down-3-makanan":"t",
+            "3-down-4-makanan":"o",
+
+            "4-down-1-makanan":"a",
+            "4-down-2-makanan":"e",
+
+            "5-down-1-makanan":"k",
+            "5-down-2-makanan":"e",
+            "5-down-3-makanan":"t",
+            "5-down-4-makanan":"o",
+            "5-down-5-makanan":"p",
+            "5-down-6-makanan":"r",
+            "5-down-7-makanan":"a",
+            "5-down-8-makanan":"k",
+
+            "6-down-1-makanan":"e",
+            "6-down-2-makanan":"t",
+            "6-down-3-makanan":"u",
+            "6-down-4-makanan":"p",
+            "6-down-5-makanan":"a",
+            "6-down-6-makanan":"t",
+
+            "7-down-1-makanan":"e",
+            "7-down-2-makanan":"m",
+            "7-down-3-makanan":"p",
+            "7-down-4-makanan":"k",
+
+            "8-down-1-makanan":"b",
+            "8-down-2-makanan":"c",
+            "8-down-3-makanan":"m",
+
+            "9-down-1-makanan":"r",
+            "9-down-2-makanan":"e",
+            "9-down-3-makanan":"n",
+            "9-down-4-makanan":"d",
+            "9-down-5-makanan":"a",
+            "9-down-6-makanan":"n",
+            "9-down-7-makanan":"g",
+
+            "10-down-1-makanan":"c",
+            "10-down-2-makanan":"e",
+            "10-down-3-makanan":"n",
+            "10-down-4-makanan":"d",
+            "10-down-5-makanan":"o",
+            "10-down-6-makanan":"l",
+            
+        };
+
+        // Tambah input di setiap kotak
+        const table = document.querySelectorAll('td.hint');
+        table.forEach((cell) => {
+            const input = document.createElement('input');
+            input.setAttribute('maxlength', "1");  // Setiap kotak hanya untuk satu huruf
+            input.oninput = checkAnswer;
+            cell.appendChild(input);
+        });
+
+        // Fungsi untuk memulai permainan
+        function startGame() {
+            selectedCategory = document.getElementById("category").value;
+            hideAllTables();
+            resetTimer();
+
+            if (selectedCategory === "hewan") {
+                document.getElementById("crosswordTable-hewan").classList.remove("hidden");
+                document.getElementById("clue-hewan").classList.remove("hidden");
+            } else if (selectedCategory === "kota") {
+                document.getElementById("crosswordTable-kota").classList.remove("hidden");
+                document.getElementById("clue-kota").classList.remove("hidden");
+            } else if (selectedCategory === "makanan") {
+                document.getElementById("crosswordTable-makanan").classList.remove("hidden");
+                document.getElementById("clue-makanan").classList.remove("hidden");
+            }
+
+            document.getElementById("explanationButton").classList.add("hidden");
+
+            resetTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function checkAnswer() {
+            let allCorrect = true;
+
+            // Get the relevant cells based on the selected category
+            const selectedCells = document.querySelectorAll(`td.hint[id$='-${selectedCategory}']`);
+
+            selectedCells.forEach((cell) => {
+                const input = cell.querySelector('input');
+                const answer = answers[cell.id];
+        
+            // Check if input exists and compare answers
+            if (input) {
+                if (input.value.toLowerCase() === answer) {
+                    input.style.backgroundColor = "#b3ffb3"; // Green if correct
+                } else {
+                    input.style.backgroundColor = "#ffb3b3"; // Red if incorrect
+                    allCorrect = false; // If any answer is wrong, set allCorrect to false
+                }
+            }
+        });
+
+        // Show explanation button only if all answers in the selected category are correct
+        if (allCorrect) {
+            clearInterval(timerInterval); // Stop timer
+            checkFastestTime(); // Check fastest time
+            document.getElementById("explanationButton").classList.remove("hidden"); // Show explanation button
+        }
+    }
+        
+        function resetCrossword() {
+        document.querySelectorAll('td.hint input').forEach((input) => {
+            input.value = '';
+            input.style.backgroundColor = '';
+        });
+    }
+
+        // Fungsi untuk mereset timer
+        function resetTimer() {
+            seconds = 0;
+            minutes = 0;
+            document.getElementById("time").innerText = "00:00";
+            clearInterval(timerInterval);
+        }
+
+        // Fungsi untuk memperbarui timer
+        function updateTimer() {
+            seconds++;
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+            }
+            document.getElementById("time").innerText = 
+                (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        }
+
+        // Fungsi untuk mengecek waktu tercepat
+        function checkFastestTime() {
+            const currentTime = minutes * 60 + seconds;
+            if (fastestTime === null || currentTime < fastestTime) {
+                fastestTime = currentTime;
+                document.getElementById("fastest-time").innerText = 
+                    (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            }
+        }
+
+        // Fungsi untuk pergi ke halaman penjelasan
+        function goToExplanation() {
+            window.location.href = `penjelasan.html?category=${selectedCategory}`;
+        }
+
+        function hideAllTables() {
+            document.getElementById("crosswordTable-hewan").classList.add("hidden");
+            document.getElementById("crosswordTable-kota").classList.add("hidden");
+            document.getElementById("crosswordTable-makanan").classList.add("hidden");
+            document.getElementById("clue-hewan").classList.add("hidden");
+            document.getElementById("clue-kota").classList.add("hidden");
+            document.getElementById("clue-makanan").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>
