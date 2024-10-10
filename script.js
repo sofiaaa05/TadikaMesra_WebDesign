@@ -4,7 +4,7 @@ const loginform= document.querySelector("#login-form");
 const registerform = document.querySelector("#register-form");
 
 loginBtn.addEventListener('click', () => {
-    loginBtn.style.backgroundColor = "#21264D;
+    loginBtn.style.backgroundColor = "#21264D";
     registerBtn.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
 
 loginForm.style.left = "50%";
