@@ -1,5 +1,8 @@
 {
     "rewrites": [
-        {"source":"/(.*)","destination":"/"}
+      { "source": "/index", "destination": "/index.html" },
+      { "source": "/logintugas", "destination": "/logintugas.html" },
+      { "source": "/penjelasan", "destination": "/penjelasan.html" },
+      { "source": "/tugas1", "destination": "/tugas1.html" }
     ]
-}
+  }
