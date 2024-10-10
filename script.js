@@ -13,6 +13,7 @@ registerForm.style.left = "-50%";
 loginForm.style.opacity= 1;
 registerForm.style.opacity = 0;
 })
+
 registerBtn.addEventListener('click', () => {
     loginBtn.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
     registerBtn.style.backgroundColor = "21264D";
